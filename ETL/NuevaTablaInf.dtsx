@@ -1,0 +1,506 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/20/2023 11:45:28 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="RH"
+  DTS:CreatorName="RH\Haru"
+  DTS:DTSID="{4145A936-1DED-4525-BC87-752066FE45FB}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5314.0"
+  DTS:LocaleID="12298"
+  DTS:ObjectName="NuevaTablaInf"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{567A8C56-04BD-44EA-9DE0-2DF610D5B8FE}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[RH.DWH_NEXTI]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{D58C2DDF-86C6-44E6-A8EF-2C21CF3EFACC}"
+      DTS:ObjectName="RH.DWH_NEXTI">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=RH;Initial Catalog=DWH_NEXTI;Integrated Security=True;Application Name=SSIS-NuevaTablaInf-{D58C2DDF-86C6-44E6-A8EF-2C21CF3EFACC}RH.DWH_NEXTI;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[RH.NEXTI]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{9B7032F4-FB76-463D-88BB-CF8E159FA0AC}"
+      DTS:ObjectName="RH.NEXTI">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=RH;Initial Catalog=NEXTI;Integrated Security=True;Application Name=SSIS-NuevaTablaInf-{9B7032F4-FB76-463D-88BB-CF8E159FA0AC}RH.NEXTI;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Transferir DAta"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tarea Flujo de datos"
+      DTS:DTSID="{97C6F3B7-DF4F-485F-A5AB-4F0AE71F6E56}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Transferir DAta"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Transferir DAta\Consulta Personas"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Consume datos de SQL Server, OLE DB, ODBC u Oracle mediante el correspondiente proveedor de datos de .NET Framework. Se usa una instrucción Transact-SQL para definir el conjunto de resultados. Por ejemplo, se extraen datos de SQL Server con el proveedor de datos de .NET Framework para SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;4"
+              description="Consume datos de SQL Server, OLE DB, ODBC u Oracle mediante el correspondiente proveedor de datos de .NET Framework. Se usa una instrucción Transact-SQL para definir el conjunto de resultados. Por ejemplo, se extraen datos de SQL Server con el proveedor de datos de .NET Framework para SQL Server."
+              name="Consulta Personas"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Especifica la instrucción SQL utilizada por el componente para extraer datos."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select Nombres, Apellidos, Persona.Cedula, Telefono, Correo, Direccion from Persona join Informacion on (Persona.Cedula = Informacion.Cedula)</property>
+                <property
+                  dataType="System.Int32"
+                  description="Número de segundos antes de que se agote el tiempo de espera de un comando. Un valor de 0 indica un tiempo de espera infinito."
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica si se debe permitir que columnas externas que no sean de cadenas se conviertan implícitamente en cadenas en las columnas de salida."
+                  name="AllowImplicitStringConversion">true</property>
+                <property
+                  dataType="System.String"
+                  description="Nombre de la tabla de la base de datos de origen."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especificar el modo de recuperar información de columnas externas"
+                  name="AccessMode"
+                  typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">2</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transferir DAta\Consulta Personas.Connections[IDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[RH.NEXTI]"
+                  connectionManagerRefId="Package.ConnectionManagers[RH.NEXTI]"
+                  description="Administrador de conexiones administrado"
+                  name="IDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET]"
+                  name="Salida de origen de ADO NET">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Nombres]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].ExternalColumns[Nombres]"
+                      length="200"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Nombres]"
+                      name="Nombres"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Apellidos]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].ExternalColumns[Apellidos]"
+                      length="200"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Apellidos]"
+                      name="Apellidos"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Cedula]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].ExternalColumns[Cedula]"
+                      length="10"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Cedula]"
+                      name="Cedula"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Telefono]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].ExternalColumns[Telefono]"
+                      length="20"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Telefono]"
+                      name="Telefono"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Correo]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].ExternalColumns[Correo]"
+                      length="100"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Correo]"
+                      name="Correo"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Direccion]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].ExternalColumns[Direccion]"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Direccion]"
+                      name="Direccion"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].ExternalColumns[Nombres]"
+                      dataType="wstr"
+                      length="200"
+                      name="Nombres" />
+                    <externalMetadataColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].ExternalColumns[Apellidos]"
+                      dataType="wstr"
+                      length="200"
+                      name="Apellidos" />
+                    <externalMetadataColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].ExternalColumns[Cedula]"
+                      dataType="wstr"
+                      length="10"
+                      name="Cedula" />
+                    <externalMetadataColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].ExternalColumns[Telefono]"
+                      dataType="wstr"
+                      length="20"
+                      name="Telefono" />
+                    <externalMetadataColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].ExternalColumns[Correo]"
+                      dataType="wstr"
+                      length="100"
+                      name="Correo" />
+                    <externalMetadataColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].ExternalColumns[Direccion]"
+                      dataType="nText"
+                      name="Direccion" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET]"
+                  isErrorOut="true"
+                  name="Salida de error de origen de ADO NET">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[Nombres]"
+                      dataType="wstr"
+                      length="200"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[Nombres]"
+                      name="Nombres" />
+                    <outputColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[Apellidos]"
+                      dataType="wstr"
+                      length="200"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[Apellidos]"
+                      name="Apellidos" />
+                    <outputColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[Cedula]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[Cedula]"
+                      name="Cedula" />
+                    <outputColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[Telefono]"
+                      dataType="wstr"
+                      length="20"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[Telefono]"
+                      name="Telefono" />
+                    <outputColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[Correo]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[Correo]"
+                      name="Correo" />
+                    <outputColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[Direccion]"
+                      dataType="nText"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[Direccion]"
+                      name="Direccion" />
+                    <outputColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de error de origen de ADO NET].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transferir DAta\Informacion Persona"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Carga datos en una base de datos compatible con ADO.NET que use una vista o tabla de base de datos. Se cargan datos en una tabla nueva o existente. Por ejemplo, se usa un proveedor ADO.NET para ODBC para cargar datos en un destino ODBC.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;2"
+              description="Carga datos en una base de datos compatible con ADO.NET que use una vista o tabla de base de datos. Se cargan datos en una tabla nueva o existente. Por ejemplo, se usa un proveedor ADO.NET para ODBC para cargar datos en un destino ODBC."
+              name="Informacion Persona"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Nombre de la tabla de la base de datos de destino."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">"Informacion Persona"</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifique el número de filas por lote. El valor predeterminado es 0, que utiliza el mismo tamaño que el búfer interno de SSIS. "
+                  expressionType="Notify"
+                  name="BatchSize">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Número de segundos antes de que se agote el tiempo de espera de un comando. Un valor de 0 indica un tiempo de espera infinito. "
+                  expressionType="Notify"
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Especifica si se debe usar la interfaz SqlBulkCopy para mejorar el rendimiento de las operaciones de inserción masiva. No todos los proveedores admiten esta interfaz."
+                  expressionType="Notify"
+                  name="UseBulkInsertWhenPossible">true</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.ADONETDestination</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transferir DAta\Informacion Persona.Connections[IDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[RH.DWH_NEXTI]"
+                  connectionManagerRefId="Package.ConnectionManagers[RH.DWH_NEXTI]"
+                  description="Administrador de conexiones administrado"
+                  name="IDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET]"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrada de destino de ADO NET">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].Columns[Nombres]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Nombres"
+                      externalMetadataColumnId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].ExternalColumns[Nombres]"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Nombres]" />
+                    <inputColumn
+                      refId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].Columns[Apellidos]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Apellidos"
+                      externalMetadataColumnId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].ExternalColumns[Apellidos]"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Apellidos]" />
+                    <inputColumn
+                      refId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].Columns[Cedula]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="Cedula"
+                      externalMetadataColumnId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].ExternalColumns[Cedula]"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Cedula]" />
+                    <inputColumn
+                      refId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].Columns[Telefono]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="Telefono"
+                      externalMetadataColumnId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].ExternalColumns[Telefono]"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Telefono]" />
+                    <inputColumn
+                      refId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].Columns[Correo]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Correo"
+                      externalMetadataColumnId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].ExternalColumns[Correo]"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Correo]" />
+                    <inputColumn
+                      refId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].Columns[Direccion]"
+                      cachedDataType="nText"
+                      cachedName="Direccion"
+                      externalMetadataColumnId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].ExternalColumns[Direccion]"
+                      lineageId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET].Columns[Direccion]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].ExternalColumns[Nombres]"
+                      dataType="wstr"
+                      length="200"
+                      name="Nombres" />
+                    <externalMetadataColumn
+                      refId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].ExternalColumns[Apellidos]"
+                      dataType="wstr"
+                      length="200"
+                      name="Apellidos" />
+                    <externalMetadataColumn
+                      refId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].ExternalColumns[Cedula]"
+                      dataType="wstr"
+                      length="10"
+                      name="Cedula" />
+                    <externalMetadataColumn
+                      refId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].ExternalColumns[Telefono]"
+                      dataType="wstr"
+                      length="20"
+                      name="Telefono" />
+                    <externalMetadataColumn
+                      refId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].ExternalColumns[Correo]"
+                      dataType="wstr"
+                      length="100"
+                      name="Correo" />
+                    <externalMetadataColumn
+                      refId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET].ExternalColumns[Direccion]"
+                      dataType="wstr"
+                      length="2147483647"
+                      name="Direccion" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transferir DAta\Informacion Persona.Outputs[Salida de error de destino de ADO NET]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Salida de error de destino de ADO NET"
+                  synchronousInputId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transferir DAta\Informacion Persona.Outputs[Salida de error de destino de ADO NET].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transferir DAta\Informacion Persona.Outputs[Salida de error de destino de ADO NET].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transferir DAta\Informacion Persona.Outputs[Salida de error de destino de ADO NET].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transferir DAta\Informacion Persona.Outputs[Salida de error de destino de ADO NET].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Transferir DAta.Paths[Salida de origen de ADO NET]"
+              endId="Package\Transferir DAta\Informacion Persona.Inputs[Entrada de destino de ADO NET]"
+              name="Salida de origen de ADO NET"
+              startId="Package\Transferir DAta\Consulta Personas.Outputs[Salida de origen de ADO NET]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="148.8,41.6"
+          Id="Package\Transferir DAta"
+          TopLeft="264.999985521039,101.399999294877" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Transferir DAta">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="166.4,41.6"
+          Id="Package\Transferir DAta\Consulta Personas"
+          TopLeft="304.499995544553,19.4999997913838" />
+        <NodeLayout
+          Size="174.4,41.6"
+          Id="Package\Transferir DAta\Informacion Persona"
+          TopLeft="554.999991729856,123.999998152256" />
+        <EdgeLayout
+          Id="Package\Transferir DAta.Paths[Salida de origen de ADO NET]"
+          TopLeft="387.699995544553,61.0999997913838">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="254.499996185303,62.8999983608723"
+              Start="0,0"
+              End="254.499996185303,55.3999983608723">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.4499991804362" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,27.4499991804362"
+                    Point2="0,31.4499991804362"
+                    Point3="4,31.4499991804362" />
+                  <mssgle:LineSegment
+                    End="250.499996185303,31.4499991804362" />
+                  <mssgle:CubicBezierSegment
+                    Point1="250.499996185303,31.4499991804362"
+                    Point2="254.499996185303,31.4499991804362"
+                    Point3="254.499996185303,35.4499991804362" />
+                  <mssgle:LineSegment
+                    End="254.499996185303,55.3999983608723" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Transferir DAta\Consulta Personas">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Transferir DAta\Informacion Persona">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
